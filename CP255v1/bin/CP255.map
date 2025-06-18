@@ -1,0 +1,72 @@
+Section          Base   Top    High   Length
+---------------- ------ ------ ------ -------
+.icon            D1A882 D1A996           114h
+.init.libs       D1A996 D1A9EE            58h
+.libs            D1A9EE D1AA19            2Bh
+.init.clock      D1AA19 D1AA19             0h
+.init.reruncheck D1AA19 D1AA19             0h
+.init            D1AA19 D1AA43            2Ah
+.fini            D1AA43 D1AA77            34h
+.text            D1AA77 D1AD30           2B9h
+.data            D1AD30 D1AD33             3h
+.rodata          D1AD33 D1ADD9            A6h
+.init_array      000000 000000             0h
+.ctors           000000 000000             0h
+.dtors           000000 000000             0h
+.fini_array      000000 000000             0h
+.bss             D052C6 D052D0 D13FD8      Ah
+.header          D1A87F D1A882             3h
+
+Label                       Value
+-------------------------   ------
+___low_bss                = D052C6
+___len_bss                = 00000A
+___heaptop                = D13FD8
+___heapbot                = D052D0
+___libs                   = D1A9EE
+___init_array_count       = 000000
+___ctors_count            = 000000
+___dtors_count            = 000000
+___fini_array_count       = 000000
+__stack                   = D1A87E
+__frameset                = D1AA77
+__idivu                   = D1AA85
+__idvrmu                  = D1AA8D
+__ishru                   = D1AAA5
+__ftol                    = 00027C
+__ftoul                   = 00027C
+__ltof                    = 000284
+__setflag                 = 000218
+__ultof                   = 000280
+_os_DisableHomeTextBuffer = D1AAE6
+_os_EnableHomeTextBuffer  = D1AAF8
+_os_GetCSC                = 021D3C
+.missingappvar            = D1AD33
+.libloadname              = D1AD38
+.libloadnamelen           = 000007
+.webaddress               = D1AD40
+__start                   = D1AA19
+___exithl                 = D1AA43
+skip._exit                = D1AA43
+skip.__Exit               = D1AA43
+skip._abort               = D1AA43
+_exit.sp                  = D1AA44
+_exit.flash_wait_states   = D1AA4E
+_itoa                     = D1AB0A
+_beginning                = D1ABBA
+_middle                   = D1AC57
+_main                     = D1AD28
+_colp                     = D1AD30
+_.str                     = D1AD55
+_.str.1                   = D1AD72
+_.str.2                   = D1AD97
+_.str.3                   = D1ADC7
+_.str.4                   = D1ADD2
+_colp_str                 = D052C6
+lib.LibLoad               = D1A9EE
+_#gfx_Begin               = D1AA01
+_#gfx_End                 = D1AA05
+_#gfx_FillScreen          = D1AA09
+_#gfx_SwapDraw            = D1AA0D
+_#gfx_PrintStringXY       = D1AA11
+_#gfx_SetTextFGColor      = D1AA15

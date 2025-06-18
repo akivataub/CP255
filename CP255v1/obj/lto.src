@@ -1,0 +1,331 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_itoa
+_itoa:
+	ld	hl, -9
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	de, (ix + 9)
+	or	a, a
+	sbc	hl, hl
+	ld	(ix - 3), hl
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	nz, BB0_3
+	push	de
+	pop	iy
+	ld	(iy), 48
+	ld	(iy + 1), 0
+BB0_2:
+	ld	sp, ix
+	pop	ix
+	ret
+BB0_3:
+	ld	(ix - 6), de
+	ld	bc, 1
+	ld	l, -10
+	ld	(ix - 9), hl
+BB0_4:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jp	m, BB0_6
+	lea	hl, iy
+	ld	bc, 10
+	call	__idivu
+	ld	de, (ix - 9)
+	ld	d, l
+	ld	(ix - 9), de
+	mlt	de
+	ld	a, e
+	ld	de, (ix - 3)
+	ld	bc, 1
+	add	a, iyl
+	or	a, 48
+	ld	iy, (ix + 9)
+	add	iy, de
+	ld	(iy), a
+	inc	de
+	ld	(ix - 3), de
+	push	hl
+	pop	iy
+	jr	BB0_4
+BB0_6:
+	ld	iy, (ix + 9)
+	ld	de, (ix - 3)
+	add	iy, de
+	ld	(iy), 0
+	ld	c, 1
+	ex	de, hl
+	call	__ishru
+	push	hl
+	pop	bc
+	dec	iy
+	lea	de, iy
+BB0_7:
+	push	bc
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	z, BB0_2
+	ld	iy, (ix - 6)
+	ld	a, (iy)
+	ex	de, hl
+	ld	e, (hl)
+	ld	(iy), e
+	ld	(hl), a
+	inc	iy
+	ld	(ix - 6), iy
+	dec	hl
+	ex	de, hl
+	dec	bc
+	jr	BB0_7
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_beginning
+_beginning:
+	call	_gfx_Begin
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_SetTextFGColor
+	pop	hl
+	scf
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillScreen
+BB1_1:
+	pop	hl
+	ld	hl, 10
+	push	hl
+	push	hl
+	ld	hl, _.str
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 20
+	push	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, _.str.1
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 30
+	push	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, _.str.2
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 40
+	push	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, _.str.3
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	call	_gfx_SwapDraw
+BB1_2:
+	call	_os_GetCSC
+	cp	a, 15
+	jr	z, BB1_6
+	cp	a, 54
+	jr	z, BB1_5
+	cp	a, 55
+	jr	nz, BB1_2
+	jr	BB1_7
+BB1_5:
+	call	_middle
+BB1_6:
+	scf
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillScreen
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_SetTextFGColor
+	jp	BB1_1
+BB1_7:
+	jp	_gfx_End
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_middle
+_middle:
+	ld	a, (_colp)
+	ld	l, a
+BB2_1:
+	push	hl
+	call	_gfx_FillScreen
+	pop	hl
+	ld	a, (_colp)
+	cpl
+	ld	l, a
+	push	hl
+	call	_gfx_SetTextFGColor
+BB2_2:
+	pop	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, 100
+	push	hl
+	ld	hl, _.str.4
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (_colp)
+	ld	de, _colp_str
+	push	de
+	push	hl
+	call	_itoa
+	pop	hl
+	pop	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, 150
+	push	hl
+	ld	hl, _colp_str
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	call	_gfx_SwapDraw
+BB2_3:
+	call	_os_GetCSC
+	cp	a, 2
+	jr	z, BB2_9
+	cp	a, 3
+	jr	z, BB2_6
+	cp	a, 15
+	jr	nz, BB2_3
+	jr	BB2_12
+BB2_6:
+	ld	de, (_colp)
+	push	de
+	pop	hl
+	ld	bc, 255
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	ld	hl, 0
+	jp	p, BB2_8
+	inc	de
+	ex	de, hl
+BB2_8:
+	ld	(_colp), hl
+	ld	a, l
+	cpl
+	ld	l, a
+	push	hl
+	call	_gfx_SetTextFGColor
+	pop	hl
+	ld	a, (_colp)
+	ld	l, a
+	push	hl
+	call	_gfx_FillScreen
+	jp	BB2_2
+BB2_9:
+	ld	a, (_colp)
+	cpl
+	ld	l, a
+	push	hl
+	call	_gfx_SetTextFGColor
+	pop	hl
+	ld	de, (_colp)
+	push	de
+	pop	hl
+	ld	bc, 1
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	ld	hl, 255
+	jp	m, BB2_11
+	dec	de
+	ex	de, hl
+BB2_11:
+	ld	(_colp), hl
+	jp	BB2_1
+BB2_12:
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_main
+_main:
+	call	_beginning
+	or	a, a
+	sbc	hl, hl
+	ret
+	section	.text,"ax",@progbits
+
+	section	.data,"aw",@progbits
+	public	_colp
+_colp:
+	dl	255
+
+	section	.rodata,"a",@progbits
+	private	_.str
+_.str:
+	db	"Welcome to 255 Color Picker!", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.1
+_.str.1:
+	db	"Click 2nd to start and mode to exit.", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.2
+_.str.2:
+	db	"While in color picker click clear to return to-", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.3
+_.str.3:
+	db	"this menu.", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.4
+_.str.4:
+	db	"Color:", 0
+
+	section	.bss,"aw",@nobits
+	public	_colp_str
+_colp_str:
+	rb	10
+
+	ident	"clang version 15.0.0 (https://github.com/CE-Programming/llvm-project 23b78267b5d376b232475d0805a937e54b61e0d0)"
+	extern	__Unwind_SjLj_Register
+	extern	__frameset
+	extern	_gfx_SetTextFGColor
+	extern	_gfx_Begin
+	extern	__ishru
+	extern	_gfx_SwapDraw
+	extern	__idivu
+	extern	__setflag
+	extern	_gfx_FillScreen
+	extern	__Unwind_SjLj_Unregister
+	extern	_gfx_PrintStringXY
+	extern	_os_GetCSC
+	extern	_gfx_End
