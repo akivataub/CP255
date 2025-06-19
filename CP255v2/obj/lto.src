@@ -1,0 +1,821 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_itoa
+_itoa:
+	ld	hl, -9
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	de, (ix + 9)
+	or	a, a
+	sbc	hl, hl
+	ld	(ix - 3), hl
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	nz, BB0_3
+	push	de
+	pop	iy
+	ld	(iy), 48
+	ld	(iy + 1), 0
+BB0_2:
+	ld	sp, ix
+	pop	ix
+	ret
+BB0_3:
+	ld	(ix - 6), de
+	ld	bc, 1
+	ld	l, -10
+	ld	(ix - 9), hl
+BB0_4:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jp	m, BB0_6
+	lea	hl, iy
+	ld	bc, 10
+	call	__idivu
+	ld	de, (ix - 9)
+	ld	d, l
+	ld	(ix - 9), de
+	mlt	de
+	ld	a, e
+	ld	de, (ix - 3)
+	ld	bc, 1
+	add	a, iyl
+	or	a, 48
+	ld	iy, (ix + 9)
+	add	iy, de
+	ld	(iy), a
+	inc	de
+	ld	(ix - 3), de
+	push	hl
+	pop	iy
+	jr	BB0_4
+BB0_6:
+	ld	iy, (ix + 9)
+	ld	de, (ix - 3)
+	add	iy, de
+	ld	(iy), 0
+	ld	c, 1
+	ex	de, hl
+	call	__ishru
+	push	hl
+	pop	bc
+	dec	iy
+	lea	de, iy
+BB0_7:
+	push	bc
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	z, BB0_2
+	ld	iy, (ix - 6)
+	ld	a, (iy)
+	ex	de, hl
+	ld	e, (hl)
+	ld	(iy), e
+	ld	(hl), a
+	inc	iy
+	ld	(ix - 6), iy
+	dec	hl
+	ex	de, hl
+	dec	bc
+	jr	BB0_7
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_about
+_about:
+	ld	hl, 1
+	push	hl
+	call	_gfx_SetDraw
+	pop	hl
+	scf
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillScreen
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 1
+	push	hl
+	push	hl
+	call	_gfx_SetTextScale
+	pop	hl
+	pop	hl
+	ld	hl, 20
+	push	hl
+	ld	hl, 80
+	push	hl
+	ld	hl, _.str
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 50
+	push	hl
+	ld	hl, 90
+	push	hl
+	ld	hl, _.str.1
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 80
+	push	hl
+	ld	hl, 90
+	push	hl
+	ld	hl, _.str.2
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 150
+	push	hl
+	ld	hl, 110
+	push	hl
+	ld	hl, _.str.3
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 180
+	push	hl
+	ld	hl, 60
+	push	hl
+	ld	hl, _.str.4
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_Blit
+	pop	hl
+BB1_1:
+	call	_os_GetCSC
+	cp	a, 15
+	jr	nz, BB1_1
+	scf
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillScreen
+	pop	hl
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_start
+_start:
+	ld	hl, -15
+	call	__frameset
+	ld	l, -15
+	ld	(ix - 3), hl
+	ld	l, 12
+	ld	(ix - 6), hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_SetDraw
+	pop	hl
+	scf
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillScreen
+	pop	hl
+	ld	de, 255
+	ld	iy, 0
+BB2_1:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	jr	z, BB2_5
+	ld	b, iyl
+	ld	c, 15
+	call	__bdivu
+	ld	hl, (ix - 3)
+	ld	h, a
+	ld	(ix - 3), hl
+	mlt	hl
+	ld	a, l
+	add	a, iyl
+	ld	de, (ix - 6)
+	ld	d, a
+	ld	(ix - 6), de
+	mlt	de
+	ld	a, e
+	cp	a, -105
+	jr	nc, BB2_4
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	pop	bc
+	ld	c, e
+	ld	(ix - 12), bc
+	ld	de, (ix - 3)
+	ld	l, d
+	ld	bc, 14
+	call	__imulu
+	ld	(ix - 15), hl
+	push	iy
+	ld	(ix - 9), iy
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 12
+	push	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, (ix - 15)
+	push	hl
+	ld	hl, (ix - 12)
+	push	hl
+	call	_gfx_FillRectangle
+	ld	iy, (ix - 9)
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+BB2_4:
+	inc	iy
+	ld	de, 255
+	jr	BB2_1
+BB2_5:
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	bc, 180
+	or	a, a
+	sbc	hl, hl
+	ld	(ix - 3), hl
+	ld	iy, 13
+BB2_6:
+	ld	hl, (ix - 3)
+	or	a, a
+	sbc	hl, bc
+	jr	z, BB2_10
+	ld	hl, (ix - 3)
+	ld	de, 148
+	or	a, a
+	sbc	hl, de
+	ld	de, 12
+	jr	nc, BB2_9
+	ld	hl, (ix - 3)
+	ld	de, 10
+	add	hl, de
+	ld	de, 238
+	push	de
+	ld	de, 0
+	push	de
+	push	hl
+	call	_gfx_VertLine
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 3)
+	ld	de, 11
+	add	hl, de
+	ld	de, 238
+	push	de
+	ld	de, 0
+	push	de
+	push	hl
+	call	_gfx_VertLine
+	ld	bc, 180
+	ld	iy, 13
+	ld	de, 12
+	pop	hl
+	pop	hl
+	pop	hl
+BB2_9:
+	ld	hl, (ix - 3)
+	add	hl, de
+	ld	(ix - 3), hl
+	jr	BB2_6
+BB2_10:
+	ld	de, 251
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	jr	z, BB2_12
+	lea	hl, iy
+	dec	hl
+	ld	(ix - 6), hl
+	lea	hl, iy
+	ld	de, -2
+	add	hl, de
+	ld	de, 154
+	push	de
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	(ix - 3), iy
+	call	_gfx_HorizLine
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 154
+	push	hl
+	ld	hl, (ix - 6)
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_HorizLine
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 154
+	push	hl
+	ld	hl, (ix - 3)
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_HorizLine
+	ld	iy, (ix - 3)
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	de, 14
+	add	iy, de
+	jr	BB2_10
+BB2_12:
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 240
+	push	hl
+	ld	hl, 164
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	hl, 156
+	push	hl
+	call	_gfx_FillRectangle
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	ld	hl, 156
+	push	hl
+	ld	hl, 238
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillRectangle
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (_cpx)
+	ld	de, 5
+	add	hl, de
+	ld	a, (_cpy)
+	add	a, 4
+	ld	e, a
+	push	de
+	push	hl
+	call	_gfx_GetPixel
+	ld	l, a
+	pop	de
+	pop	de
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 240
+	push	hl
+	ld	hl, 164
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	hl, 156
+	push	hl
+	call	_gfx_FillRectangle
+BB2_13:
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	scf
+	sbc	hl, hl
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, (_bsx)
+	ld	de, (_bsy)
+	ld	bc, 12
+	push	bc
+	dec	bc
+	push	bc
+	push	de
+	push	hl
+	call	_gfx_Rectangle
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_Blit
+	pop	hl
+BB2_15:
+	call	_os_GetCSC
+	cp	a, 2
+	jr	z, BB2_18
+	cp	a, 3
+	jp	z, BB2_21
+	cp	a, 15
+	jr	nz, BB2_15
+	jp	BB2_25
+BB2_18:
+	ld	iy, (_bsx)
+	ld	bc, (_cpx)
+	push	bc
+	pop	hl
+	ld	de, -12
+	add	hl, de
+	ld	(_cpx), hl
+	ld	(ix - 3), iy
+	add	iy, de
+	ld	(_bsx), iy
+	push	hl
+	pop	iy
+	push	bc
+	pop	hl
+	ld	de, 12
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jp	p, BB2_20
+	ld	hl, 144
+	ld	(_cpx), hl
+	ld	(_bsx), hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, (_bsy)
+	ld	de, 12
+	push	de
+	dec	de
+	push	de
+	push	hl
+	ld	hl, 144
+	push	hl
+	call	_gfx_Rectangle
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	iy, (_cpx)
+BB2_20:
+	ld	de, 5
+	add	iy, de
+	ld	a, (_cpy)
+	add	a, 4
+	ld	l, a
+	push	hl
+	push	iy
+	call	_gfx_GetPixel
+	ld	l, a
+	pop	de
+	pop	de
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 240
+	push	hl
+	ld	hl, 164
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	hl, 156
+	push	hl
+	call	_gfx_FillRectangle
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, (ix - 3)
+	jp	BB2_24
+BB2_21:
+	ld	bc, (_cpx)
+	push	bc
+	pop	hl
+	ld	de, 12
+	add	hl, de
+	ld	(_cpx), hl
+	ld	iy, (_bsx)
+	add	iy, de
+	ld	(_bsx), iy
+	push	hl
+	pop	iy
+	push	bc
+	pop	hl
+	ld	de, 138
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jp	m, BB2_23
+	or	a, a
+	sbc	hl, hl
+	ld	(_cpx), hl
+	ld	(_bsx), hl
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, (_bsy)
+	ld	de, 12
+	push	de
+	dec	de
+	push	de
+	push	hl
+	ld	hl, 144
+	push	hl
+	call	_gfx_Rectangle
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	iy, (_cpx)
+BB2_23:
+	ld	de, 5
+	add	iy, de
+	ld	a, (_cpy)
+	add	a, 4
+	ld	l, a
+	push	hl
+	push	iy
+	call	_gfx_GetPixel
+	ld	l, a
+	pop	de
+	pop	de
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 240
+	push	hl
+	ld	hl, 164
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	hl, 156
+	push	hl
+	call	_gfx_FillRectangle
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, (_bsx)
+	ld	de, -12
+	add	hl, de
+BB2_24:
+	ld	bc, (_bsy)
+	ld	de, 12
+	push	de
+	dec	de
+	push	de
+	push	bc
+	push	hl
+	call	_gfx_Rectangle
+	jp	BB2_13
+BB2_25:
+	ld	sp, ix
+	pop	ix
+	jp	_gfx_End
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_main
+_main:
+	call	_gfx_Begin
+BB3_1:
+	ld	hl, 1
+	push	hl
+	call	_gfx_SetDraw
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 1
+	push	hl
+	push	hl
+	call	_gfx_SetTextScale
+	pop	hl
+	pop	hl
+	ld	hl, 10
+	push	hl
+	push	hl
+	ld	hl, _.str.5
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 30
+	push	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, _.str.6
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 50
+	push	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, _.str.7
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 60
+	push	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, _.str.8
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 80
+	push	hl
+	ld	hl, 10
+	push	hl
+	ld	hl, _.str.9
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_Blit
+	pop	hl
+	call	_os_GetCSC
+	cp	a, 47
+	jr	nz, BB3_3
+	scf
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillScreen
+	pop	hl
+	call	_about
+	jp	BB3_1
+BB3_3:
+	cp	a, 54
+	jr	nz, BB3_5
+	scf
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillScreen
+	pop	hl
+	call	_start
+	jp	BB3_1
+BB3_5:
+	cp	a, 55
+	jp	nz, BB3_1
+	call	_gfx_End
+	or	a, a
+	sbc	hl, hl
+	ret
+	section	.text,"ax",@progbits
+
+	section	.bss,"aw",@nobits
+	public	_cpx
+_cpx:
+	rb	3
+
+	section	.data,"aw",@progbits
+	public	_cpy
+_cpy:
+	dl	5
+
+	section	.bss,"aw",@nobits
+	public	_bsx
+_bsx:
+	rb	3
+
+	section	.bss,"aw",@nobits
+	public	_bsy
+_bsy:
+	rb	3
+
+	section	.rodata,"a",@progbits
+	private	_.str
+_.str:
+	db	"About Color Picker 2.0", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.1
+_.str.1:
+	db	"Made by mumbojum2", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.2
+_.str.2:
+	db	"github.com/mumbojum2", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.3
+_.str.3:
+	db	"Version 2", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.4
+_.str.4:
+	db	"Press Clear to return to menu", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.5
+_.str.5:
+	db	"Welcome to Color Picker 2.0!", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.6
+_.str.6:
+	db	"To start the program press 2nd", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.7
+_.str.7:
+	db	"To Quit the program press mode now or clear", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.8
+_.str.8:
+	db	"within the program to get back to this menu", 0
+
+	section	.rodata,"a",@progbits
+	private	_.str.9
+_.str.9:
+	db	"Press math in this menu for the about section.", 0
+
+	section	.bss,"aw",@nobits
+	public	_color_str
+_color_str:
+	rb	4
+
+	ident	"clang version 15.0.0 (https://github.com/CE-Programming/llvm-project 23b78267b5d376b232475d0805a937e54b61e0d0)"
+	extern	__Unwind_SjLj_Register
+	extern	__frameset
+	extern	_gfx_GetPixel
+	extern	_gfx_Begin
+	extern	_gfx_HorizLine
+	extern	__ishru
+	extern	_gfx_SetDraw
+	extern	__idivu
+	extern	__setflag
+	extern	_gfx_FillScreen
+	extern	_gfx_VertLine
+	extern	_gfx_Blit
+	extern	_gfx_FillRectangle
+	extern	__Unwind_SjLj_Unregister
+	extern	__imulu
+	extern	_gfx_SetColor
+	extern	_gfx_Rectangle
+	extern	_gfx_PrintStringXY
+	extern	_os_GetCSC
+	extern	_gfx_End
+	extern	__bdivu
+	extern	_gfx_SetTextScale

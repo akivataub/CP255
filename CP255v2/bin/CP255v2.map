@@ -1,0 +1,85 @@
+Section          Base   Top    High   Length
+---------------- ------ ------ ------ -------
+.icon            D1A882 D1A996           114h
+.init.libs       D1A996 D1A9EE            58h
+.libs            D1A9EE D1AA35            47h
+.init.clock      D1AA35 D1AA35             0h
+.init.reruncheck D1AA35 D1AA35             0h
+.init            D1AA35 D1AA5F            2Ah
+.fini            D1AA5F D1AA93            34h
+.text            D1AA93 D1B03F           5ACh
+.data            D1B03F D1B042             3h
+.rodata          D1B042 D1B18D           14Bh
+.init_array      000000 000000             0h
+.ctors           000000 000000             0h
+.dtors           000000 000000             0h
+.fini_array      000000 000000             0h
+.bss             D052C6 D052CF D13FD8      9h
+.header          D1A87F D1A882             3h
+
+Label                       Value
+-------------------------   ------
+___low_bss                = D052C6
+___len_bss                = 000009
+___heaptop                = D13FD8
+___heapbot                = D052CF
+___libs                   = D1A9EE
+___init_array_count       = 000000
+___ctors_count            = 000000
+___dtors_count            = 000000
+___fini_array_count       = 000000
+__stack                   = D1A87E
+__bdivu                   = D1AA93
+__bdvrmu                  = D1AA9D
+__frameset                = D1AAAC
+__imulu                   = D1AABA
+__ftol                    = 00027C
+__ftoul                   = 00027C
+__ltof                    = 000284
+__setflag                 = 000218
+__ultof                   = 000280
+_os_DisableHomeTextBuffer = D1AAEA
+_os_EnableHomeTextBuffer  = D1AAFC
+_os_GetCSC                = 021D3C
+.missingappvar            = D1B042
+.libloadname              = D1B047
+.libloadnamelen           = 000007
+.webaddress               = D1B04F
+__start                   = D1AA35
+___exithl                 = D1AA5F
+skip._exit                = D1AA5F
+skip.__Exit               = D1AA5F
+skip._abort               = D1AA5F
+_exit.sp                  = D1AA60
+_exit.flash_wait_states   = D1AA6A
+_about                    = D1AB0E
+_start                    = D1ABC0
+_main                     = D1AF6C
+_cpx                      = D052C6
+_cpy                      = D1B03F
+_bsx                      = D052C9
+_bsy                      = D052CC
+_.str                     = D1B064
+_.str.1                   = D1B07B
+_.str.2                   = D1B08D
+_.str.3                   = D1B0A2
+_.str.4                   = D1B0AC
+_.str.5                   = D1B0CA
+_.str.6                   = D1B0E7
+_.str.7                   = D1B106
+_.str.8                   = D1B132
+_.str.9                   = D1B15E
+lib.LibLoad               = D1A9EE
+_#gfx_Begin               = D1AA01
+_#gfx_End                 = D1AA05
+_#gfx_SetColor            = D1AA09
+_#gfx_FillScreen          = D1AA0D
+_#gfx_GetPixel            = D1AA11
+_#gfx_SetDraw             = D1AA15
+_#gfx_Blit                = D1AA19
+_#gfx_PrintStringXY       = D1AA1D
+_#gfx_HorizLine           = D1AA21
+_#gfx_VertLine            = D1AA25
+_#gfx_Rectangle           = D1AA29
+_#gfx_FillRectangle       = D1AA2D
+_#gfx_SetTextScale        = D1AA31
