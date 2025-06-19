@@ -8,5 +8,6 @@ echo "*/Application Data/
 */SendTo/
 */Start Menu/
 */Templates/
+b6b2356c-dcf9-4102-a55d-26e8bdb68dd0.pdf
 *" > .gitignore
 git add .gitignore
